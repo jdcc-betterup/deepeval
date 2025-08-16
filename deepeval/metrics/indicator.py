@@ -6,6 +6,7 @@ from typing import List, Optional, Union
 import time
 import asyncio
 
+from tenacity import retry, stop_after_attempt
 from deepeval.errors import MissingTestCaseParamsError
 from deepeval.metrics import (
     BaseMetric,
@@ -229,7 +230,7 @@ async def measure_metrics_with_indicator(
 
         await asyncio.gather(*tasks)
 
-
+@retry(stop=stop_after_attempt(4), reraise=True)
 async def safe_a_measure(
     metric: Union[BaseMetric, BaseMultimodalMetric, BaseConversationalMetric],
     tc: Union[LLMTestCase, MLLMTestCase, ConversationalTestCase],
