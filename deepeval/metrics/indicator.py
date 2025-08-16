@@ -230,7 +230,7 @@ async def measure_metrics_with_indicator(
 
         await asyncio.gather(*tasks)
 
-@retry(stop=stop_after_attempt(4), reraise=True)
+@retry(stop=stop_after_attempt(8), reraise=True)
 async def safe_a_measure(
     metric: Union[BaseMetric, BaseMultimodalMetric, BaseConversationalMetric],
     tc: Union[LLMTestCase, MLLMTestCase, ConversationalTestCase],
